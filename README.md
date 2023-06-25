@@ -23,7 +23,7 @@ CONTAINER_CMD=docker ./build_container.sh cpu
 Para testar este código você tem as duas opções descritas abaixo.
 ## Execução único nó
 
-1. Dentro da pasta `data` deste repositótio, você deve colocar seus arquivos sísmicos `npy` ou `zarr` de treino.
+1. Dentro da pasta `data` deste repositório, você deve colocar seus arquivos sísmicos `npy` ou `zarr` de treino.
 
 2. Execute o comando abaixo para executar o *script* `train-model.py` dentro do container:
     
