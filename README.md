@@ -52,7 +52,9 @@ Para testar este código você tem as duas opções descritas abaixo.
 ```
 
 **NOTA 1**: Lembre-se de executar os comandos acima na pasta raiz deste repositório.
+
 **NOTA 2**: Os scripts em `./bash_scripts/` rodam todas as combinações de janelas de vizinhos do extrator de features, e treinam para todos os atributos sísmicos. Se você quer rodar apenas uma configuração específica, veja o comando docker no repositório do [dasf-seismic-lite](https://github.com/otavioon/dasf-seismic-lite).
+
 **Nota 3**: Também tem disponível o script `train-model-hyperparam-search.py`. Ele foi uma tentativa de seguir boas práticas de data science, fazendo o split do dataset total e cross fold validation para buscar um bom espaço de hiperparâmetros. Estranhamente o GridSearchCV do dask não lidou bem com o objeto XGBRegressor do dasf-core. Tive um bug que não consegui resolver.
 
 ## Acknowledgements
