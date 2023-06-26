@@ -116,27 +116,25 @@ def create_pipeline(
     # Compondo o pipeline
     pipeline = Pipeline(name="F3 seismic attributes", executor=executor)
     pipeline.add(dataset)
-    if samples_window == 0 and traces_window == 0 and inlines_window == 0:
-        res = [dataset]
-    else:
-        res = []
-        for shift in range(-samples_window, samples_window + 1, 1):
-            if shift != 0:
-                a2df = CustomArraysToDataFrame(shift=shift, axis=2)
-                pipeline.add(a2df, dataset=dataset)
-                res.append(a2df)
 
-        for shift in range(-traces_window, traces_window + 1, 1):
-            if shift != 0:
-                a2df = CustomArraysToDataFrame(shift=shift, axis=1)
-                pipeline.add(a2df, dataset=dataset)
-                res.append(a2df)
+    res = []
+    for shift in range(-samples_window, samples_window + 1, 1):
+        if shift != 0:
+            a2df = CustomArraysToDataFrame(shift=shift, axis=2)
+            pipeline.add(a2df, dataset=dataset)
+            res.append(a2df)
 
-        for shift in range(-inlines_window, inlines_window + 1, 1):
-            if shift != 0:
-                a2df = CustomArraysToDataFrame(shift=shift, axis=0)
-                pipeline.add(a2df, dataset=dataset)
-                res.append(a2df)
+    for shift in range(-traces_window, traces_window + 1, 1):
+        if shift != 0:
+            a2df = CustomArraysToDataFrame(shift=shift, axis=1)
+            pipeline.add(a2df, dataset=dataset)
+            res.append(a2df)
+
+    for shift in range(-inlines_window, inlines_window + 1, 1):
+        if shift != 0:
+            a2df = CustomArraysToDataFrame(shift=shift, axis=0)
+            pipeline.add(a2df, dataset=dataset)
+            res.append(a2df)
     
     x_arr2df = xCustomArraysToDataFrame()
     y_arr2df = yCustomArraysToDataFrame()
@@ -151,6 +149,10 @@ def create_pipeline(
     pipeline.add(x_arr2df, X=arrays2df)
     pipeline.add(y_arr2df, X=arrays2df)
     pipeline.add(xgbregressor.predict, X=x_arr2df)
+
+    pipeline_save_location = f"pipe-run-model-{inlines_window}-{traces_window}-{samples_window}.png"
+    if pipeline_save_location is not None:
+        pipeline._dag_g.render(outfile=pipeline_save_location, cleanup=True)
 
     y_true = y_arr2df
     # Retorna o pipeline e o operador xgbregressor, donde os resultados serão obtidos
